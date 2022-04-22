@@ -1,0 +1,16 @@
+{
+  "name": "@anton-vbr/tableau-extensions-transform-data",
+  "version": "0.0.1",
+  "description": "This package is intended to facilitate vizualisations and misc operations after running Worksheet.getSummaryDataAsync",
+  "license": "MIT",
+  "repository": "anton-vbr/tableau-extensions-transform-data",
+  "main": "index.js",
+  "keywords": [
+    "tableau",
+    "tableau extensions",
+    "worksheet",
+    "npm",
+    "package",
+    "anton-vbr"
+  ]
+}
