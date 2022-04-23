@@ -9,6 +9,15 @@ module.exports = function transformData(worksheetData) {
     }
   };
 
+  let cleanMeasureColumn = (x) => {
+    var regExp = /:(.*?):/;
+    try {
+      return regExp.exec(x)[1];
+    } catch (error) {
+      return x;
+    }
+  };
+
   const FIELDNAME = "_fieldName";
   const COLUMNNAME = "_columns";
   const DATANAME = "_data";
@@ -31,7 +40,11 @@ module.exports = function transformData(worksheetData) {
     ).map((x) => x[FIELDNAME]);
     let measureColumns = Array.from(
       new Set(
-        worksheetData[DATANAME].map((x) => x[originDimensions][FORMATTEDVALUE])
+        worksheetData[DATANAME].map(
+          (x) =>
+            x[originDimensions][FORMATTEDVALUE] ||
+            cleanMeasureColumn(x[originDimensions][VALUENAME])
+        )
       )
     ).reverse(); // the order is by default reversed, so this just goes back to normal
 
@@ -40,8 +53,8 @@ module.exports = function transformData(worksheetData) {
     // Let's find the amount of rows in a group (the inner group)
     let rowRepeatCount = worksheetData[DATANAME].findIndex(
       (x) =>
-        x[originDimensions][FORMATTEDVALUE] !==
-        worksheetData[DATANAME][0][originDimensions][FORMATTEDVALUE]
+        x[originDimensions][VALUENAME] !==
+        worksheetData[DATANAME][0][originDimensions][VALUENAME]
     );
 
     columns = columns.map((x) => cleanColumn(x)); // Clean the columns from SUM(), ATTR() and so on....
