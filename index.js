@@ -71,12 +71,14 @@ module.exports = function transformData(worksheetData) {
           ...worksheetData[DATANAME][i]
             .slice(0, originDimensions)
             .map((x) => x[VALUENAME]),
-          ...[...Array(measureColumns.length).keys()].map(
-            (ind) =>
-              worksheetData[DATANAME][i + ind * rowRepeatCount][
-                originDimensions + 1
-              ][VALUENAME]
-          ),
+          ...[...Array(measureColumns.length).keys()]
+            .reverse() // the order is by default reversed, so this just goes back to normal
+            .map(
+              (ind) =>
+                worksheetData[DATANAME][i + ind * rowRepeatCount][
+                  originDimensions + 1
+                ][VALUENAME]
+            ),
         ];
         // Equals to Pythons dict(zip(rowData, columns))
         // https://riptutorial.com/javascript/example/8628/merge-two-array-as-key-value-pair
